@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rydo | Premium Bike Rentals in India</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #ec4899;
+            --page-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --border-color: rgba(148, 163, 184, 0.25);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-green: #22c55e;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --navbar-bg: rgba(255, 255, 255, 0.92);
+            --footer-bg: #ffffff;
+            --input-bg: rgba(255, 255, 255, 0.95);
+            --hero-glow-1: rgba(37, 99, 235, 0.16);
+            --hero-glow-2: rgba(236, 72, 153, 0.10);
+        }
+
+        body.theme-dark {
+            --page-bg: #020617;
+            --card-bg: rgba(15, 23, 42, 0.96);
+            --border-color: rgba(148, 163, 184, 0.22);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --navbar-bg: rgba(2, 6, 23, 0.9);
+            --footer-bg: #030712;
+            --input-bg: rgba(15, 23, 42, 0.98);
+            --hero-glow-1: rgba(59, 130, 246, 0.24);
+            --hero-glow-2: rgba(236, 72, 153, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .theme-toggle-checkbox {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .page-shell {
+            min-height: 100vh;
+            background-color: var(--page-bg);
+            color: var(--text-main);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-toggle-checkbox:checked ~ .page-shell {
+            --page-bg: #020617;
+            --card-bg: rgba(15, 23, 42, 0.96);
+            --border-color: rgba(148, 163, 184, 0.22);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --navbar-bg: rgba(2, 6, 23, 0.9);
+            --footer-bg: #030712;
+            --input-bg: rgba(15, 23, 42, 0.98);
+            --hero-glow-1: rgba(59, 130, 246, 0.24);
+            --hero-glow-2: rgba(236, 72, 153, 0.2);
+        }
+
+        /* --- NAVIGATION --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 8%;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .theme-switch {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+        }
+
+        .theme-switch .toggle-icon {
+            font-size: 14px;
+        }
+
+        .theme-switch .icon-dark,
+        .theme-switch .mode-label-dark {
+            display: none;
+        }
+
+        .theme-toggle-checkbox:checked ~ .page-shell .theme-switch .icon-light,
+        .theme-toggle-checkbox:checked ~ .page-shell .theme-switch .mode-label-light {
+            display: none;
+        }
+
+        .theme-toggle-checkbox:checked ~ .page-shell .theme-switch .icon-dark,
+        .theme-toggle-checkbox:checked ~ .page-shell .theme-switch .mode-label-dark {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-main);
+        }
+
+        .city-select {
+            background: var(--input-bg);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            color: var(--text-main);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            position: relative;
+            padding: 160px 8% 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(2, 6, 23, 0.85) 0%, rgba(2, 6, 23, 0.6) 45%, rgba(2, 6, 23, 0.2) 100%);
+            z-index: -1;
+        }
+
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, var(--hero-glow-1) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, var(--hero-glow-2) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .hero-main {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 32px;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .hero-copy {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+            color: #ffffff;
+        }
+
+        .hero-visual {
+            width: 100%;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+        }
+
+        .hero-visual img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            display: block;
+            opacity: 0.92;
+        }
+
+        .badge-pill {
+            background: rgba(37, 99, 235, 0.2);
+            color: #dbeafe;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.15;
+            max-width: 850px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #e2e8f0;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* --- SEARCH BOOKING WIDGET --- */
+        .search-card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 1000px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.18);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 160px;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.16);
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .input-group label {
+            font-size: 12px;
+            color: #e2e8f0;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .input-group input, .input-group select {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .input-group option {
+            background: #0f172a;
+            color: #ffffff;
+        }
+
+        .search-card button {
+            height: 100%;
+            min-height: 52px;
+            font-size: 16px;
+        }
+
+        /* --- TRUST METRICS --- */
+        .trust-banner {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-item h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+
+        .metric-item p {
+            font-size: 13px;
+            color: #f8fafc;
+            margin-top: 2px;
+        }
+
+        /* --- FLEET SECTION --- */
+        .section {
+            padding: 90px 8%;
+        }
+
+        .demo-offers,
+        .demo-cities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .demo-offer,
+        .demo-city {
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--card-bg);
+        }
+
+        .demo-offer {
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .demo-offer h3,
+        .demo-city h3 { margin: 12px 0 8px; }
+
+        .demo-offer p,
+        .demo-city p { color: var(--text-muted); }
+
+        .demo-offer p { color: rgba(255, 255, 255, .86); }
+
+        .coupon-code {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 6px 12px;
+            border: 1px dashed currentColor;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .city-icon { color: var(--primary); font-size: 22px; }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .fleet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .bike-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+        }
+
+        .bike-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(37, 99, 235, 0.45);
+        }
+
+        .bike-tag {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(37, 99, 235, 0.12);
+            backdrop-filter: blur(8px);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(37, 99, 235, 0.18);
+            color: var(--text-main);
+        }
+
+        .bike-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: rgba(15, 23, 42, 0.04);
+        }
+
+        .bike-details {
+            padding: 22px;
+        }
+
+        .bike-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .bike-specs {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 14px;
+        }
+
+        .bike-specs span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-box .amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .price-box .unit {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .btn-secondary {
+            background: rgba(37, 99, 235, 0.10);
+            color: var(--text-main);
+            padding: 10px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .bike-card:hover .btn-secondary {
+            background: var(--primary);
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: var(--radius-lg);
+            text-align: left;
+            transition: background 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(37, 99, 235, 0.14);
+            color: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000000;
+            border-top: 1px solid var(--border-color);
+            padding: 60px 8% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: #ffffff;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #60a5fa;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            color: #e2e8f0;
+            font-size: 14px;
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 38px; }
+            .hero-main { grid-template-columns: 1fr; }
+            .hero-copy { align-items: center; text-align: center; }
+            .search-card { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <input type="checkbox" class="theme-toggle-checkbox" id="themeToggle">
+    <div class="page-shell">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="logo">
+            <i class="fa-solid fa-motorcycle"></i><span>Rydo</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#bikes">Bikes</a></li>
+            <li><a href="#offers">Deals</a></li>
+            <li><a href="#locations">Cities</a></li>
+        </ul>
+        <div style="display: flex; gap: 15px; align-items: center;">
+            <label class="theme-switch" for="themeToggle">
+                <span class="toggle-icon icon-light"><i class="fa-solid fa-sun"></i></span>
+                <span class="toggle-icon icon-dark"><i class="fa-solid fa-moon"></i></span>
+                <span class="mode-label-light">Light Mode</span>
+                <span class="mode-label-dark">Dark Mode</span>
+            </label>
+            <select class="city-select">
+                <option value="blore">📍 Bengaluru</option>
+                <option value="goa">📍 Goa</option>
+                <option value="delhi">📍 New Delhi</option>
+                <option value="mum">📍 Mumbai</option>
+                <option value="leh">📍 Leh-Ladakh</option>
+            </select>
+            <a href="#" class="btn-primary">Login / Signup</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline poster="bike.jpeg" aria-label="Motorcycle ride video">
+            <source src="13953385_1080_1920_30fps.mp4" type="video/mp4">
+        </video>
+        <div class="hero-main">
+            <div class="hero-copy">
+                <div class="badge-pill"><i class="fa-solid fa-bolt"></i> Zero Security Deposit on Select Bikes</div>
+                <h1>Explore India on Two Wheels with Total Freedom</h1>
+                <p>Rent high-end cruisers, sports bikes, and EV scooters starting at just ₹399/day. Unlimited kilometers with complimentary helmets.</p>
+
+                <!-- BOOKING SEARCH WIDGET -->
+                <div class="search-card">
+                    <div class="input-group">
+                        <label><i class="fa-solid fa-location-dot"></i> PICKUP CITY</label>
+                        <select>
+                            <option>Bengaluru (Indiranagar)</option>
+                            <option>Goa (Calangute)</option>
+                            <option>New Delhi (CP)</option>
+                            <option>Mumbai (Andheri)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fa-regular fa-calendar-check"></i> PICKUP DATE</label>
+                        <input type="date" value="2026-08-05">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fa-regular fa-calendar-xmark"></i> DROP DATE</label>
+                        <input type="date" value="2026-08-08">
+                    </div>
+                    <button class="btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Find Bikes</button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd8Xv93xwMrtW4UPEZifGS3cA3poHvpn3zbYWQj4CzNGVAWF_U6s-wD22g&s=10" alt="Rider on a motorcycle in a scenic route">
+            </div>
+        </div>
+
+        <!-- TRUST METRICS -->
+        <div class="trust-banner">
+            <div class="metric-item">
+                <h3>50,000+</h3>
+                <p>Happy Riders</p>
+            </div>
+            <div class="metric-item">
+                <h3>25+</h3>
+                <p>Indian Cities</p>
+            </div>
+            <div class="metric-item">
+                <h3>4.8★</h3>
+                <p>Google Rating</p>
+            </div>
+            <div class="metric-item">
+                <h3>100%</h3>
+                <p>Sanitized Bikes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLEET SECTION -->
+    <section class="section" id="bikes">
+        <div class="section-header">
+            <div>
+                <h2>Popular Rental Fleet</h2>
+                <p>Choose from iconic cruisers, racing machines, and eco-friendly scooters.</p>
+            </div>
+            <a href="#" class="btn-secondary">View All Bikes <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+
+        <div class="fleet-grid">
+            <!-- BIKE 1 -->
+            <div class="bike-card">
+                <span class="bike-tag">Most Popular Cruiser</span>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_c7QqnoEzld0TkF3PDAV7kJWrRSUQ1lUk68aPV5jnGw&s=10" alt="Royal Enfield Classic 350" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Royal Enfield Classic 350</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 349 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 35 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹899</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 2 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(56,189,248,0.85);">Sports Performance</span>
+                <img src="https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=800" alt="KTM Duke 390" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">KTM Duke 390</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 373 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 28 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹1,299</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 3 -->
+            <div class="bike-card">
+                <span class="bike-tag">Track-Ready</span>
+                <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=800" alt="Yamaha R15 V4" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Yamaha YZF R15 V4</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 155 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 45 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹749</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 4 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(139,92,246,0.85);">100% Electric</span>
+                <img src="https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=80&w=800" alt="Ather 450X" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Ather 450X Gen 3</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-charging-station"></i> 105 km Range</span>
+                        <span><i class="fa-solid fa-bolt"></i> 90 km/h</span>
+                        <span><i class="fa-solid fa-gears"></i> Automatic</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹499</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 5 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(16,185,129,0.85);">Easy Commuter</span>
+                <img src="https://motoshare.in/storage/vechile_image/vechile_image1724709543.webp" alt="Honda Activa 6G" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Honda Activa 6G</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 109 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 55 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Automatic</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹399</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 6 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(249,115,22,0.85);">Adventure Ready</span>
+                <img src="https://images.unsplash.com/photo-1558980664-2506fca6bfc2?q=80&w=800" alt="Royal Enfield Himalayan 450" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Royal Enfield Himalayan 450</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 452 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 28 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹1,499</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 7 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(236,72,153,0.85);">Street Fighter</span>
+                <img src="https://www.rentrip.in/uploads/products/bike/500x350/593184IMG_1550570328.webp" alt="TVS Apache RTR 200 4V" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">TVS Apache RTR 200 4V</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 197 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 38 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹699</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 8 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(59,130,246,0.85);">City Cruiser</span>
+                <img src="https://www.rentrip.in/uploads/products/bike/500x350/593184IMG_1598686806.webp" alt="Bajaj Pulsar NS200" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Bajaj Pulsar NS200</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 199 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 35 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹649</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BIKE 9 -->
+            <div class="bike-card">
+                <span class="bike-tag" style="background: rgba(14,165,233,0.85);">Weekend Escape</span>
+                <img src="https://www.rentrip.in/uploads/products/bike/500x350/593184IMG_1659702505.webp" alt="Honda CB350 RS" class="bike-image">
+                <div class="bike-details">
+                    <h3 class="bike-title">Honda CB350 RS</h3>
+                    <div class="bike-specs">
+                        <span><i class="fa-solid fa-gauge-high"></i> 348 cc</span>
+                        <span><i class="fa-solid fa-gas-pump"></i> 36 km/l</span>
+                        <span><i class="fa-solid fa-gears"></i> Manual</span>
+                    </div>
+                    <div class="price-row">
+                        <div class="price-box">
+                            <span class="amount">₹799</span>
+                            <span class="unit">per day</span>
+                        </div>
+                        <a href="#" class="btn-secondary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEALS SECTION -->
+    <section class="section" id="offers">
+        <div class="section-header">
+            <div>
+                <h2>Exclusive Deals</h2>
+                <p>Make your next ride go further for less.</p>
+            </div>
+        </div>
+        <div class="demo-offers">
+            <article class="demo-offer">
+                <i class="fa-solid fa-percent"></i>
+                <h3>20% OFF on Weekend Trips</h3>
+                <p>Rent any cruiser bike for more than two days and save 20%.</p>
+                <span class="coupon-code">WEEKEND20</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #047857, #10b981);">
+                <i class="fa-solid fa-leaf"></i>
+                <h3>Zero Deposit on EV Scooters</h3>
+                <p>Book an Ather EV scooter with instant digital verification.</p>
+                <span class="coupon-code">ZERODEP</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #ea580c, #f59e0b);">
+                <i class="fa-solid fa-road"></i>
+                <h3>Long Ride Rewards</h3>
+                <p>Save 15% when you book a bike for five days or longer.</p>
+                <span class="coupon-code">LONGRIDE15</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #be123c, #f43f5e);">
+                <i class="fa-solid fa-user-group"></i>
+                <h3>Refer a Rider</h3>
+                <p>Invite a friend and both of you receive ₹300 off your next ride.</p>
+                <span class="coupon-code">RIDEFRIEND</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #4338ca, #6366f1);">
+                <i class="fa-solid fa-calendar-days"></i>
+                <h3>Early Bird Booking</h3>
+                <p>Book seven days ahead and unlock an extra 10% off your rental.</p>
+                <span class="coupon-code">EARLYBIRD10</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #0f766e, #14b8a6);">
+                <i class="fa-solid fa-helmet-safety"></i>
+                <h3>Monsoon Rider Pack</h3>
+                <p>Get a complimentary rain cover and riding gloves with every booking.</p>
+                <span class="coupon-code">MONSOONRIDE</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #7c2d12, #c2410c);">
+                <i class="fa-solid fa-star"></i>
+                <h3>First Ride Bonus</h3>
+                <p>New to Rydo? Get ₹250 off your first bike rental with a quick signup.</p>
+                <span class="coupon-code">FIRST RIDE</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #0369a1, #0ea5e9);">
+                <i class="fa-solid fa-sun"></i>
+                <h3>Midweek Miles</h3>
+                <p>Enjoy 12% off on Tuesday to Thursday bookings across all locations.</p>
+                <span class="coupon-code">MIDWEEK12</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #86198f, #c026d3);">
+                <i class="fa-solid fa-people-group"></i>
+                <h3>Group Getaway</h3>
+                <p>Book three or more bikes together and save ₹500 on your group trip.</p>
+                <span class="coupon-code">GROUP500</span>
+            </article>
+            <article class="demo-offer" style="background: linear-gradient(135deg, #334155, #64748b);">
+                <i class="fa-solid fa-gauge-high"></i>
+                <h3>Premium Bike Upgrade</h3>
+                <p>Upgrade to a premium cruiser for the price of a standard bike for one day.</p>
+                <span class="coupon-code">UPGRADE24</span>
+            </article>
+        </div>
+    </section>
+
+    <!-- CITIES SECTION -->
+    <section class="section" id="locations">
+        <div class="section-header">
+            <div>
+                <h2>Ride Across India</h2>
+                <p>Choose a pickup location for your next journey.</p>
+            </div>
+        </div>
+        <div class="demo-cities">
+            <article class="demo-city"><i class="city-icon fa-solid fa-location-dot"></i><h3>Bengaluru</h3><p>Indiranagar pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-location-dot"></i><h3>Goa</h3><p>Calangute pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-location-dot"></i><h3>New Delhi</h3><p>Connaught Place pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-location-dot"></i><h3>Mumbai</h3><p>Andheri pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-mountain-sun"></i><h3>Leh Ladakh</h3><p>Mountain route pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-umbrella-beach"></i><h3>Manali</h3><p>Old Manali pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-mountain-sun"></i><h3>Rishikesh</h3><p>Laxman Jhula pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-landmark"></i><h3>Jaipur</h3><p>MI Road pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-water"></i><h3>Pondicherry</h3><p>White Town pickup hub</p></article>
+            <article class="demo-city"><i class="city-icon fa-solid fa-tree-city"></i><h3>Hyderabad</h3><p>Banjara Hills pickup hub</p></article>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="section" style="background: rgba(255, 255, 255, 0.01);">
+        <div class="section-header" style="justify-content: center; text-align: center;">
+            <div>
+                <h2>Why Ride With Rydo?</h2>
+                <p>We take care of your journey so you can focus on the road.</p>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Comp Insurance</h3>
+                <p>All rides include full zero-dep insurance for complete peace of mind.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-helmet-safety"></i></div>
+                <h3>Free Helmets</h3>
+                <p>Two ISI certified sanitized helmets are included with every rental.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-wrench"></i></div>
+                <h3>24/7 Roadside Assist</h3>
+                <p>Broke down in Ladakh or Goa? Our pan-India network has you covered 24/7.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-coins"></i></div>
+                <h3>Zero Deposit Options</h3>
+                <p>Complete simple KYC via Aadhaar & DL for zero security deposit rides.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="margin-bottom: 16px; color: #ffffff;">
+                    <i class="fa-solid fa-motorcycle"></i> Rydo
+                </a>
+                <p style="color: #e2e8f0; font-size: 14px;">India's most trusted self-drive bike rental platform. Ride anywhere with ultimate freedom.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Top Cities</h4>
+                <ul>
+                    <li><a href="#">Bike Rental in Goa</a></li>
+                    <li><a href="#">Bike Rental in Bengaluru</a></li>
+                    <li><a href="#">Bike Rental in Leh Ladakh</a></li>
+                    <li><a href="#">Bike Rental in Manali</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Popular Bikes</h4>
+                <ul>
+                    <li><a href="#">Royal Enfield Hunter 350</a></li>
+                    <li><a href="#">Himalayan 450</a></li>
+                    <li><a href="#">TVS Apache RTR 200</a></li>
+                    <li><a href="#">Honda Activa 6G</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help & Legal</h4>
+                <ul>
+                    <li><a href="#">Tariff & Pricing</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Partner With Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2026 Rydo Technologies Pvt Ltd. Made with ❤️ for Indian Bikers.
+        </div>
+    </footer>
+
+    </div>
+</body>
+</html>
