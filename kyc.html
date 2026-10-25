@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Digital KYC & Zero-Deposit Portal | Rydo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="navbar.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script defer src="app.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #ec4899;
+            --page-bg: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.96);
+            --border-color: rgba(148, 163, 184, 0.25);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --navbar-bg: rgba(255, 255, 255, 0.94);
+            --input-bg: rgba(255, 255, 255, 0.98);
+        }
+        body.theme-dark {
+            --page-bg: #020617;
+            --card-bg: rgba(15, 23, 42, 0.96);
+            --border-color: rgba(148, 163, 184, 0.22);
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --navbar-bg: rgba(2, 6, 23, 0.92);
+            --input-bg: rgba(15, 23, 42, 0.98);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--page-bg); color: var(--text-main); line-height: 1.6; min-height: 100vh; transition: background 0.3s ease, color 0.3s ease; }
+
+        /* --- NAVBAR STYLES --- */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 78px;
+            padding: 12px 6%;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+        }
+        #navbar-root { display: contents; }
+        .navbar-inner {
+            width: 100%;
+            max-width: 1440px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 28px;
+        }
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.04em;
+        }
+        .logo-icon {
+            display: grid;
+            place-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 13px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            font-size: 17px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 6px;
+            align-items: center;
+            padding: 5px;
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.07);
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 650;
+            padding: 9px 16px;
+            border-radius: 999px;
+            transition: all 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+            background: var(--card-bg);
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+        .navbar-actions { display: flex; gap: 10px; align-items: center; }
+        .theme-switch-btn, .bookings-badge-btn, .nav-sos-quick-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            background: rgba(148, 163, 184, 0.08);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .nav-sos-quick-btn {
+            background: rgba(239, 68, 68, 0.12);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.35);
+        }
+        .nav-sos-quick-btn:hover { background: #ef4444; color: #fff; }
+        .count-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            background: var(--primary);
+            color: #ffffff;
+        }
+        .city-select {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 9px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 11px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35); }
+        .btn-secondary {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 10px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-secondary:hover { background: var(--primary); color: #fff; }
+        .menu-toggle { display: none; background: none; border: none; font-size: 20px; color: var(--text-main); cursor: pointer; }
+
+        /* --- KYC PAGE CONTAINER --- */
+        .kyc-page-container {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 130px 6% 80px;
+        }
+        .page-heading { text-align: center; margin-bottom: 36px; }
+        .eyebrow {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .page-heading h1 {
+            font-size: clamp(32px, 4vw, 44px);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+        .page-heading p {
+            font-size: 16px;
+            color: var(--text-muted);
+            max-width: 660px;
+            margin: 0 auto;
+        }
+
+        /* --- VERIFIED VIP BADGE CARD --- */
+        .kyc-verified-vip-wrapper { text-align: center; margin-top: 20px; }
+        .vip-card-glow {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #0b1329 100%);
+            color: #ffffff;
+            border: 2px solid #f59e0b;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4), 0 0 30px rgba(245, 158, 11, 0.2);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+        .vip-card-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -50%;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .vip-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 16px;
+        }
+        .vip-brand { font-size: 18px; font-weight: 900; letter-spacing: 0.05em; display: flex; align-items: center; }
+        .vip-security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 11px;
+            font-weight: 800;
+        }
+        .vip-card-body {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .vip-avatar-box {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            font-weight: 900;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+        }
+        .vip-rider-info { flex: 1; }
+        .vip-rider-info h3 { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .vip-rider-info p { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #cbd5e1; margin-bottom: 2px; }
+        .vip-cert-date { font-size: 11px; color: #94a3b8; font-weight: 600; display: block; margin-top: 4px; }
+        .vip-qr-box {
+            text-align: center;
+            background: #ffffff;
+            padding: 10px 14px;
+            border-radius: 14px;
+        }
+        .vip-qr-box small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 800; color: #1e293b; margin-top: 4px; }
+        .vip-card-footer {
+            border-top: 1px dashed rgba(255, 255, 255, 0.15);
+            padding-top: 14px;
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .vip-actions-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- KYC WIZARD CARD --- */
+        .kyc-wizard-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+        }
+        .kyc-steps-indicator {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .kyc-step-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(148, 163, 184, 0.08);
+            border: 1px solid var(--border-color);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .kyc-step-pill.is-active {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .kyc-step-pill.is-done {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: #10b981;
+            color: #10b981;
+        }
+        .step-circle {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: rgba(148, 163, 184, 0.2);
+            display: grid; place-items: center; font-size: 11px;
+        }
+        .kyc-step-pill.is-active .step-circle { background: var(--primary); color: #fff; }
+        .kyc-step-pill.is-done .step-circle { background: #10b981; color: #fff; }
+
+        .kyc-form h3 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+        .step-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 22px; }
+        .modal-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .modal-field label { font-size: 12px; font-weight: 700; color: var(--text-muted); }
+        .modal-field input {
+            height: 46px;
+            padding: 0 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-main);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+        }
+        .modal-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .submit-kyc-btn { width: 100%; height: 50px; margin-top: 10px; font-size: 15px; }
+
+        .scanning-progress-box {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 16px;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px dashed var(--primary);
+            margin-top: 18px;
+        }
+        .progress-track { width: 100%; height: 8px; border-radius: 999px; background: rgba(148, 163, 184, 0.2); overflow: hidden; margin-top: 14px; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 999px; transition: width 0.2s linear; }
+
+        /* --- OCR RESULTS BOX --- */
+        .ocr-results-box { text-align: center; padding: 10px 0; }
+        .ocr-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: #dcfce7;
+            color: #166534;
+            font-weight: 800;
+            font-size: 12px;
+            margin-bottom: 14px;
+        }
+        .ocr-results-box h3 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .ocr-results-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+        .ocr-data-card {
+            background: rgba(148, 163, 184, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .ocr-row { display: flex; justify-content: space-between; font-size: 14px; }
+        .ocr-row span { color: var(--text-muted); }
+
+        /* --- OTP VERIFICATION BOX --- */
+        .otp-verification-box { text-align: center; padding: 10px 0; }
+        .otp-icon {
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(37, 99, 235, 0.1); color: var(--primary);
+            display: grid; place-items: center; font-size: 26px;
+            margin: 0 auto 16px;
+        }
+        .otp-verification-box h3 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+        .otp-verification-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+        .otp-digit-input {
+            width: 200px;
+            height: 56px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 0.25em;
+            border-radius: 14px;
+            border: 2px solid var(--primary);
+            background: var(--input-bg);
+            color: var(--text-main);
+            outline: none;
+            margin-bottom: 12px;
+        }
+        .otp-timer { font-size: 12px; color: var(--text-muted); font-weight: 700; margin-bottom: 22px; }
+
+        @media print {
+            body * { visibility: hidden !important; }
+            #printable-vip-card, #printable-vip-card * { visibility: visible !important; }
+            #printable-vip-card { position: absolute; left: 0; top: 0; width: 100%; max-width: 650px; margin: 20px auto; }
+        }
+
+        @media (max-width: 820px) {
+            .kyc-steps-indicator { grid-template-columns: 1fr; }
+            .modal-form-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .nav-links.is-open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); border-radius: 0; padding: 20px; border-top: 1px solid var(--border-color); }
+            .menu-toggle { display: block; }
+            .navbar .theme-switch-btn .theme-label { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-root"></div>
+    <main>
+        <div id="kyc-root"></div>
+    </main>
+</body>
+</html>
