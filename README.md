@@ -1,59 +1,54 @@
-# Rydo Bike Rental Web
+# Rydo Bike Rental Website
 
-Rydo is a responsive static website concept for discovering and renting bikes across India.
+Rydo is a responsive front-end demo for exploring bike rentals, pickup cities, offers, and road-trip features across India. The site is built with HTML, CSS, and React 18 loaded from CDNs; it does not require a build step or package installation.
 
 ## Pages
 
-- `loading.html` - Branded loading screen that redirects to the home page after three seconds.
-- `home.html` - Main landing page with the bike catalogue, booking-focused sections, theme controls, and navigation.
-- `deals.html` - Promotional offers, including weekend discounts and zero-deposit EV scooter rentals.
-- `cities.html` - Available pickup locations across India.
+| File | Description |
+| --- | --- |
+| `index.html` | Branded video loading page and entry point |
+| `home.html` | Main page with bike search, fleet, booking, and interactive ride tools |
+| `deals.html` | Rental offers and coupon codes |
+| `cities.html` | Pickup cities and location details |
+| `routes.html` | Featured motorcycle routes and elevation profiles |
+| `loyalty.html` | Rider points, tiers, badges, and rewards |
+| `safety.html` | Safety information and SOS demo |
+| `kyc.html` | Identity verification flow demo |
+| `contact.html` | FAQs and support-ticket demo |
+| `login.html` | Sign-in and registration demo |
+| `loading.html` | Alternate branded loading page |
 
 ## Features
 
-- Responsive layouts for desktop and mobile screens.
-- Light and dark theme support on the home page.
-- Bike rental catalogue with location and booking controls.
-- Promotional deals and city pickup hubs.
-- Video-backed visual sections with local fallback poster imagery.
-- Google Fonts and Font Awesome icons loaded through CDN links.
+- Responsive layouts with light and dark theme support.
+- Search and filter the bike fleet by city, category, and favorites; compare bikes.
+- Interactive booking flow with date validation, add-ons, promo codes, booking history, and printable invoices.
+- Fuel-cost estimator, customer reviews, and a ride-help assistant.
+- City and station information, deal listings, and route planning.
+- Cockpit simulator, ride matcher, loyalty rewards, KYC, safety, and contact-page demos.
+- Browser local storage for demo preferences and data such as bookings, reviews, and account state.
 
-## Project Structure
+This is a front-end demonstration. Authentication, reservations, payments, KYC, and support tickets are not connected to a production backend.
 
-```text
-.
-├── home.html
-├── loading.html
-├── deals.html
-├── cities.html
-├── bike.jpeg
-├── realistic_motorbike_in_mountai.mp4
-└── make_another_video_of_a_hilly.mp4
-```
+## Run locally
 
-## Run Locally
+No dependencies need to be installed. Serve the project directory with Python:
 
-No installation or build step is required.
-
-### Option 1: Open directly
-
-Open `loading.html` in a browser. It will redirect to `home.html` automatically.
-
-### Option 2: Use a local server
-
-From the project directory, run one of these commands:
-
-```bash
+```powershell
 python -m http.server 8000
 ```
 
-Then open [http://localhost:8000/loading.html](http://localhost:8000/loading.html).
+Then open <http://localhost:8000/> to load `index.html`, or visit <http://localhost:8000/home.html> directly. VS Code Live Server can also be used.
 
-If Python is not installed, the VS Code Live Server extension can also serve the files.
+## Media files
 
-## Notes
+Keep the video files and `bike.jpeg` beside the HTML files so local media references continue to work. The `.mp4` assets are stored with Git LFS. When cloning the repository, install Git LFS before cloning or run:
 
-- Internet access is needed for the Google Fonts and Font Awesome CDN resources.
-- The login, signup, and booking links are currently presentation links and do not connect to a backend.
-- Keep the media filenames beside the HTML files so the video backgrounds and poster image continue to load.
+```powershell
+git lfs install
+git lfs pull
+```
 
+## External resources
+
+Google Fonts, Font Awesome, React 18, and ReactDOM are loaded from CDNs. An internet connection is needed for these resources.
